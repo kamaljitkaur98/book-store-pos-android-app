@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Book Store POS App</string>
+    <string name="searchbar_hint">Search Book Name</string>
+</resources>
