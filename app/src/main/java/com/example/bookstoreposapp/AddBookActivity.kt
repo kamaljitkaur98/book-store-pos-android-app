@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bookstoreposapp.fragment.NavFragment
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
 class AddBookActivity: AppCompatActivity() {
 
@@ -27,5 +29,21 @@ class AddBookActivity: AppCompatActivity() {
 //            val intent = Intent(this, MainActivity::class.java)
 //            startActivity(intent)
 //        }
+
+        val addInventoryButton : MaterialButton = findViewById(R.id.button_add_inventory)
+
+        val bookName: TextInputEditText = findViewById(R.id.edit_text_book_name)
+        val bookDescription: TextInputEditText = findViewById(R.id.edit_text_book_description)
+        val bookISBN: TextInputEditText = findViewById(R.id.edit_text_isbn)
+        val bookPrice: TextInputEditText = findViewById(R.id.edit_text_price)
+
+        addInventoryButton.setOnClickListener{
+            val name = bookName.text.toString()
+            val description = bookDescription.text.toString()
+            val isbn = bookISBN.text.toString()
+            val price = bookPrice.text.toString()
+            //TODO("Logic to send data to backend API")
+        }
+
     }
 }
