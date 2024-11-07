@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddBookActivity" android:theme="@style/Theme.BookStorePOSApp"/>
+        <activity android:name=".BookDetailActivity" android:theme="@style/Theme.BookStorePOSApp"/>
     </application>
 
 </manifest>

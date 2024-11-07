@@ -1,17 +1,21 @@
 package com.example.bookstoreposapp.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.BookData
+import com.example.bookstoreposapp.BookDetailActivity
 import com.example.bookstoreposapp.R
-import org.w3c.dom.Text
 
-class BookRVAdapter(var bookList: List<BookData>) :
+
+class BookRVAdapter(var bookList: List<BookData>, private val context: Context) :
     RecyclerView.Adapter<BookRVAdapter.BookViewHolder>() {
 
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,6 +24,19 @@ class BookRVAdapter(var bookList: List<BookData>) :
         val status: TextView = itemView.findViewById(R.id.status)
         val originalPrice: TextView = itemView.findViewById(R.id.originalPrice)
         val discountedPrice: TextView = itemView.findViewById(R.id.discountedPrice)
+
+        val cardView: CardView = itemView.findViewById(R.id.book_card_view)
+
+        init {
+            cardView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val book = bookList[position]
+                    val intent = Intent(context, BookDetailActivity::class.java)
+                    context.startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {

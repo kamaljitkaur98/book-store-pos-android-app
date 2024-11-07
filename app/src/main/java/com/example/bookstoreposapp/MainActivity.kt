@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         addDataToList()
 
-        bookRVAdapter = BookRVAdapter(bookList)
+        bookRVAdapter = BookRVAdapter(bookList, this)
         recyclerView.adapter = bookRVAdapter
 
         val fragment = NavFragment()
