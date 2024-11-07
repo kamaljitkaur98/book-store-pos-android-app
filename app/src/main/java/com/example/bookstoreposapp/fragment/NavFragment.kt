@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.content.Intent
+import com.example.bookstoreposapp.AddBookActivity
 import com.example.bookstoreposapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -17,7 +20,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NavFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NavFragment : Fragment() {
+class NavFragment : Fragment(), View.OnClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,8 +37,10 @@ class NavFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nav, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_nav, container, false)
+        val addButton: LinearLayout = view.findViewById(R.id.addButton)
+        addButton.setOnClickListener(this)
+        return view
     }
 
     companion object {
@@ -56,5 +61,14 @@ class NavFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.addButton -> {
+                val intent = Intent(requireContext(), AddBookActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }
