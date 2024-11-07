@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.content.Intent
 import com.example.bookstoreposapp.AddBookActivity
+import com.example.bookstoreposapp.MainActivity
 import com.example.bookstoreposapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -67,6 +68,10 @@ class NavFragment : Fragment(), View.OnClickListener {
         when (p0?.id) {
             R.id.addButton -> {
                 val intent = Intent(requireContext(), AddBookActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.homeButton -> {
+                val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
             }
         }
