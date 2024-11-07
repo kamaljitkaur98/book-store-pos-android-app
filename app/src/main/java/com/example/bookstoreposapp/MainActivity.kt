@@ -1,18 +1,20 @@
 package com.example.bookstoreposapp
 
+import com.example.bookstoreposapp.R
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.adapters.BookRVAdapter
+import com.example.bookstoreposapp.fragment.NavFragment
 import java.util.Locale
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
@@ -33,6 +35,14 @@ class MainActivity : ComponentActivity() {
 
         bookRVAdapter = BookRVAdapter(bookList)
         recyclerView.adapter = bookRVAdapter
+
+        val fragment = NavFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.bottom_nav_fragment, fragment)
+            .addToBackStack(null)
+            .commit()
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
