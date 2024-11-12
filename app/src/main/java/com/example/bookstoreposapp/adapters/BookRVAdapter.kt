@@ -33,6 +33,7 @@ class BookRVAdapter(var bookList: List<BookData>, private val context: Context) 
                 if (position != RecyclerView.NO_POSITION) {
                     val book = bookList[position]
                     val intent = Intent(context, BookDetailActivity::class.java)
+                    intent.putExtra("bookData",book)
                     context.startActivity(intent)
                 }
             }
@@ -53,6 +54,7 @@ class BookRVAdapter(var bookList: List<BookData>, private val context: Context) 
         holder.status.text = bookList[position].status
         holder.originalPrice.text = bookList[position].originalPrice
         holder.discountedPrice.text = bookList[position].discountedPrice
+        holder.logo.setImageResource(bookList[position].image)
     }
 
     @SuppressLint("NotifyDataSetChanged")
