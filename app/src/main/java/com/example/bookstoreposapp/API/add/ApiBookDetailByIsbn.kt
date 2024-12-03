@@ -1,10 +1,7 @@
-package com.example.bookstoreposapp.API
+package com.example.bookstoreposapp.API.add
 
-data class ApiResponseBook(
-    val id: String,
+data class ApiBookDetailByIsbn(
     val isbn: String,
-    val currentPrice: Double,
-    val transactionCount: Int,
     val title: String,
     val authors: String,
     val edition: String,

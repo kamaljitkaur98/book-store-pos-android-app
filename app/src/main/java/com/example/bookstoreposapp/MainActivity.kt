@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.API.ApiResponseBook
 import com.example.bookstoreposapp.adapters.BookRVAdapter
+import com.example.bookstoreposapp.adapters.RetrofitInstance
 import com.example.bookstoreposapp.fragment.NavFragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,22 +22,16 @@ import java.util.Locale
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-    val BASE_URL="<API Base URL Here>"
+
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private var bookList = ArrayList<BookData>()
     private lateinit var bookRVAdapter: BookRVAdapter
-    val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val service = retrofit.create(BookApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recycler_view)
@@ -45,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         //addDataToList()
-        fetchBooks(service)
+        fetchBooks(RetrofitInstance.api)
         bookRVAdapter = BookRVAdapter(bookList, this)
         recyclerView.adapter = bookRVAdapter
 
@@ -124,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     private fun mapToBookData(apiBook: ApiResponseBook): BookData {
         return BookData(
             title = apiBook.title,
-            image = R.drawable.default_book_image,
+            image = apiBook.imageURL?:"",
             status = if (apiBook.transactionCount > 0) "Old" else "New",
             originalPrice = "${apiBook.basePrice}",
             discountedPrice = "${apiBook.currentPrice}",
@@ -133,5 +128,7 @@ class MainActivity : AppCompatActivity() {
             transactionCount = apiBook.transactionCount
         )
     }
+
+
 
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bookstoreposapp.BookData
 import com.example.bookstoreposapp.BookDetailActivity
 import com.example.bookstoreposapp.R
@@ -54,7 +55,12 @@ class BookRVAdapter(var bookList: List<BookData>, private val context: Context) 
         holder.status.text = bookList[position].status
         holder.originalPrice.text = bookList[position].originalPrice
         holder.discountedPrice.text = bookList[position].discountedPrice
-        holder.logo.setImageResource(bookList[position].image)
+        //holder.logo.setImageResource(bookList[position].image)
+        Glide.with(context)
+            .load(bookList[position].image) // URL of the image
+            .placeholder(R.drawable.default_book_image) // Optional: Placeholder image
+            .error(R.drawable.default_book_image) // Optional: Error image if loading fails
+            .into(holder.logo) // Target ImageView
     }
 
     @SuppressLint("NotifyDataSetChanged")

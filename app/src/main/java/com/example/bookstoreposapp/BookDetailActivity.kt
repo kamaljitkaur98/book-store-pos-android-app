@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.bookstoreposapp.fragment.NavFragment
 
 class BookDetailActivity: AppCompatActivity() {
@@ -36,10 +37,11 @@ class BookDetailActivity: AppCompatActivity() {
     }
 
     private fun populateBookDetails(book: BookData) {
-        findViewById<ImageView>(R.id.bookImage).apply {
-            book.image?.let { setImageResource(it) }
-        }
-
+        Glide.with(this)
+            .load(book.image) // URL of the image
+            .placeholder(R.drawable.default_book_image) // Optional: Placeholder image
+            .error(R.drawable.default_book_image) // Optional: Error image if loading fails
+            .into(findViewById(R.id.bookImage)) // Target ImageView
         findViewById<TextView>(R.id.bookTitle).text = book.title
         findViewById<TextView>(R.id.originalPrice).text = book.originalPrice
         findViewById<TextView>(R.id.ownershipStatus).text = book.status

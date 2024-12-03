@@ -70,7 +70,11 @@
             android:id="@+id/edit_text_book_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:inputType="none"
+            android:focusable="false"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:maxLines="5" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Book Description Input -->
@@ -92,8 +96,11 @@
             android:id="@+id/edit_text_book_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:minLines="2" />
+            android:inputType="none"
+            android:focusable="false"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:maxLines="5"  />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- ISBN Number Input -->
