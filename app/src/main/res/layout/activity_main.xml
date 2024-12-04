@@ -7,14 +7,37 @@
     android:layout_height="match_parent"
     tools:ignore="ExtraText">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
-        android:layout_marginTop="10dp"
+    <!-- Search bar with QR code icon -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:queryHint="Search By Book Name"
-        app:iconifiedByDefault="false"
-        app:queryBackground="@android:color/transparent" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:queryHint="Search By Book Name"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/qr_code_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Scan QR Code"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/qr_scanner_icon" />
+    </LinearLayout>
 
     <!-- RecyclerView to display search results -->
     <androidx.recyclerview.widget.RecyclerView
@@ -24,7 +47,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="16dp"
-    app:layout_constraintBottom_toTopOf="@+id/bottom_nav_fragment" />
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_fragment" />
 
     <fragment
         android:id="@+id/bottom_nav_fragment"

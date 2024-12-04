@@ -24,10 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddBookActivity" android:theme="@style/Theme.BookStorePOSApp"/>
+        <activity android:name=".API.add.AddBookActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".BookDetailActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".API.add.PurchaseDetailsActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".CheckoutActivity" android:theme="@style/Theme.BookStorePOSApp"/>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

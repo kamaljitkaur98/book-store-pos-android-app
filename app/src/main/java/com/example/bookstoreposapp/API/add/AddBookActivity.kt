@@ -1,4 +1,4 @@
-package com.example.bookstoreposapp
+package com.example.bookstoreposapp.API.add
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bookstoreposapp.API.add.ApiBookDetailByIsbn
-import com.example.bookstoreposapp.API.add.PurchaseDetailsActivity
-import com.example.bookstoreposapp.API.add.PurchaseResponse
+import com.example.bookstoreposapp.R
 import com.example.bookstoreposapp.adapters.RetrofitInstance
 import com.example.bookstoreposapp.fragment.NavFragment
 import com.google.android.material.button.MaterialButton
