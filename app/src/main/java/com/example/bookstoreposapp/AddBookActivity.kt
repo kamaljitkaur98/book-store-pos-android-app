@@ -3,6 +3,7 @@ package com.example.bookstoreposapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +47,11 @@ class AddBookActivity: AppCompatActivity() {
                 }
             }
         }
-
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
         addInventoryButton.setOnClickListener {
             val name = bookName.text.toString()
             val description = bookDescription.text.toString()

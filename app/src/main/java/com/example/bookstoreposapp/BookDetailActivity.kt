@@ -2,6 +2,8 @@ package com.example.bookstoreposapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,14 +29,23 @@ class BookDetailActivity: AppCompatActivity() {
             .commit()
 
         val backButton: ImageButton = findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            onBackPressed()
-        }
 //        backButton.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
+//            onBackPressed()
 //        }
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Youtube Video Uploaded
+        val youtubeWebView: WebView = findViewById(R.id.youtubeWebView)
+        val videoURL = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=jAxh0SCxk4sRTYa7\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        youtubeWebView.loadData(videoURL,"text/html", "utf-8")
+        youtubeWebView.settings.javaScriptEnabled = true
+        youtubeWebView.webChromeClient = WebChromeClient()
     }
+
+
 
     private fun populateBookDetails(book: BookData) {
         Glide.with(this)
