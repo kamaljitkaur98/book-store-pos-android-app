@@ -38,33 +38,10 @@ class CheckoutActivity : AppCompatActivity() {
 
         // Toolbar Views
         val backButton: ImageButton = findViewById(R.id.backButton)
-        val titleText: TextView = findViewById(R.id.text_title)
 
-        // Input Fields
-        val nameInputLayout: TextInputLayout = findViewById(R.id.input_layout_user_name)
-        val nameInput: TextInputEditText = findViewById(R.id.user_name)
-
-        val emailInputLayout: TextInputLayout = findViewById(R.id.input_layout_user_email)
-        val emailInput: TextInputEditText = findViewById(R.id.user_phone_number)
-
-        val phoneInputLayout: TextInputLayout = findViewById(R.id.input_layout_user_phone_number)
-        val phoneInput: TextInputEditText = findViewById(R.id.user_email)
-
-        // Total Section
-        val totalLabel: TextView = findViewById(R.id.totalLabel)
-        val totalAmount: TextView = findViewById(R.id.totalAmount)
-
-        // Email Receipt Checkbox
-        val emailReceiptCheckbox: CheckBox = findViewById(R.id.emailReceiptCheckbox)
-
-        // Payment Buttons
         val cashButton: Button = findViewById(R.id.cashButton)
         val cardButton: Button = findViewById(R.id.cardButton)
 
-        // Bottom Navigation Fragment (if needed for interaction)
-        // val bottomNavFragment = supportFragmentManager.findFragmentById(R.id.bottom_nav_fragment)
-
-        // Set up Click Listeners
         backButton.setOnClickListener {
             onBackPressed() // Navigate back
         }
@@ -81,7 +58,6 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun handlePayment(paymentMethod: String) {
-        // Logic for handling payment method selection
         val nameInput: TextInputEditText = findViewById(R.id.user_name)
         val emailInput: TextInputEditText = findViewById(R.id.user_phone_number)
         val phoneInput: TextInputEditText = findViewById(R.id.user_email)
@@ -91,19 +67,18 @@ class CheckoutActivity : AppCompatActivity() {
         val phone = phoneInput.text.toString().trim()
 
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-            // Show Toast if any field is empty
             Toast.makeText(this, "Please fill in all fields before proceeding", Toast.LENGTH_SHORT).show()
         } else {
         when (paymentMethod) {
             "Cash" -> {
                 // Handle cash payment
                 showSuccessPopup()
-                Toast.makeText(this, "Payment Successful using Cash", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Payment Successful using Cash", Toast.LENGTH_SHORT).show()
             }
             "Card" -> {
                 // Handle card payment
                 showSuccessPopup()
-                Toast.makeText(this, "Payment Successful using Card", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Payment Successful using Card", Toast.LENGTH_SHORT).show()
             }
             }
         }

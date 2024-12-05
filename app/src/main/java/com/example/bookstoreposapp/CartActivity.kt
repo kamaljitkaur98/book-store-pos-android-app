@@ -41,13 +41,8 @@ class CartActivity: AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view)
 
         val proceedButton: Button = findViewById(R.id.proceedToCheckout)
-
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
         val backButton: ImageButton = findViewById(R.id.backButton)
-        backButton.setOnClickListener{
-            onBackPressed()
-        }
+
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,6 +56,11 @@ class CartActivity: AppCompatActivity() {
             val intent = Intent(this, CheckoutActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+        }
+
+        backButton.setOnClickListener{
+            println("Press registered")
+            onBackPressed()
         }
 
     }
