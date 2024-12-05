@@ -19,12 +19,14 @@
 
             <ImageButton
                 android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back_button_desc"
+                android:clickable="true"
+                android:focusable="true"
                 android:onClick="onBackPressed"
-                android:src="@drawable/ic_add" />
+                android:src="@drawable/baseline_arrow_back_24" />
 
             <TextView
                 android:id="@+id/text_title"

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.content.Intent
+import android.widget.ImageView
+import android.widget.TextView
 import com.example.bookstoreposapp.API.add.AddBookActivity
 import com.example.bookstoreposapp.CartActivity
 import com.example.bookstoreposapp.MainActivity
@@ -69,23 +71,34 @@ class NavFragment : Fragment(), View.OnClickListener {
             }
     }
 
+
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.addButton -> {
-                val intent = Intent(requireContext(), AddBookActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                if (requireActivity() !is AddBookActivity) {
+                    val intent = Intent(requireContext(), AddBookActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
             }
             R.id.homeButton -> {
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                if (requireActivity() !is MainActivity) {
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
             }
             R.id.cartButton -> {
-                val intent = Intent(requireContext(), CartActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                if (requireActivity() !is CartActivity) {
+                    val intent = Intent(requireContext(), CartActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
             }
         }
     }
+
+
+
+
 }

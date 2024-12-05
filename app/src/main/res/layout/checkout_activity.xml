@@ -100,12 +100,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:maxLines="5" />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Book Description Input -->
@@ -126,12 +121,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:maxLines="5"  />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- ISBN Number Input -->

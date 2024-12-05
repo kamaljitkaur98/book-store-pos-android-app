@@ -30,6 +30,8 @@ class AddBookActivity: AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
             .commit()
+
+
         val addInventoryButton: MaterialButton = findViewById(R.id.button_add_inventory)
 
         val bookName: TextInputEditText = findViewById(R.id.edit_text_book_name)
@@ -47,8 +49,7 @@ class AddBookActivity: AppCompatActivity() {
         }
         val backButton: ImageButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
         addInventoryButton.setOnClickListener {
             val name = bookName.text.toString()
@@ -62,8 +63,6 @@ class AddBookActivity: AppCompatActivity() {
                 Toast.makeText(this, "ISBN and Price cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
     private fun fetchBookDetailsByISBN(
         isbn: String,

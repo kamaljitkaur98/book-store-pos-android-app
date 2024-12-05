@@ -2,11 +2,14 @@ package com.example.bookstoreposapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,15 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.DAO.CartDao
 import com.example.bookstoreposapp.adapters.BookRVAdapter
 import com.example.bookstoreposapp.adapters.CartAdapter
-import com.example.bookstoreposapp.adapters.RetrofitInstance
-import com.example.bookstoreposapp.database.CartDatabase
 import com.example.bookstoreposapp.fragment.NavFragment
 import com.example.bookstoreposapp.model.CartViewModel
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 class CartActivity: AppCompatActivity() {
 
@@ -45,6 +41,13 @@ class CartActivity: AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view)
 
         val proceedButton: Button = findViewById(R.id.proceedToCheckout)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener{
+            onBackPressed()
+        }
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
