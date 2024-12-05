@@ -18,7 +18,6 @@ class PurchaseDetailsActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
-            .addToBackStack(null)
             .commit()
         val qrCodeImage: ImageView = findViewById(R.id.qr_code_image)
         val messageText: TextView = findViewById(R.id.message_text)

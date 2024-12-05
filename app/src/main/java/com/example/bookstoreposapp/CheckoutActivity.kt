@@ -1,5 +1,6 @@
 package com.example.bookstoreposapp
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -8,14 +9,32 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bookstoreposapp.database.CartDatabase
+import com.example.bookstoreposapp.model.CartItem
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class CheckoutActivity : AppCompatActivity() {
 
+    var totalAmount = 0.00
+    val newCartItems = mutableListOf<CartItem>()
+    val oldCartItems = mutableListOf<CartItem>()
+
+    val db = CartDatabase.getDatabase(this)
+    val cartDao = db.cartDao()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.checkout_activity) // Replace with your actual XML file name
+        setContentView(R.layout.checkout_activity)
+
+        cartDao.getAllCartItems().observe(this) { updatedCartItems ->
+            if (updatedCartItems != null) {
+                totalAmount = calculateTotalAndSeparateItems(updatedCartItems)
+                val formattedAmount = String.format("%.2f", totalAmount)
+                val totalAmountText: TextView = findViewById(R.id.totalAmount)
+                totalAmountText.text = formattedAmount
+            }
+        }
 
         // Toolbar Views
         val backButton: ImageButton = findViewById(R.id.backButton)
@@ -33,7 +52,6 @@ class CheckoutActivity : AppCompatActivity() {
 
         // Total Section
         val totalLabel: TextView = findViewById(R.id.totalLabel)
-        val totalAmount: TextView = findViewById(R.id.totalAmount)
 
         // Email Receipt Checkbox
         val emailReceiptCheckbox: CheckBox = findViewById(R.id.emailReceiptCheckbox)
@@ -73,5 +91,26 @@ class CheckoutActivity : AppCompatActivity() {
                 Toast.makeText(this, "Payment Successful using Card", Toast.LENGTH_SHORT)
             }
         }
+    }
+
+    fun calculateTotalAndSeparateItems(cartItems: List<CartItem>) : Double {
+        totalAmount = 0.0
+        newCartItems.clear()
+        oldCartItems.clear()
+        for (item in cartItems) {
+            when (item.status) {
+                "New" -> {
+                    // Add amount for new items
+                    totalAmount += item.discountedPrice.toDouble()
+                    newCartItems.add(item)
+                }
+                "Old" -> {
+                    // Subtract amount for old items
+                    totalAmount -= item.discountedPrice.toDouble()
+                    oldCartItems.add(item)
+                }
+            }
+        }
+        return totalAmount;
     }
 }

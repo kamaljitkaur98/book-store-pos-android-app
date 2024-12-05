@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.content.Intent
 import com.example.bookstoreposapp.API.add.AddBookActivity
+import com.example.bookstoreposapp.CartActivity
 import com.example.bookstoreposapp.MainActivity
 import com.example.bookstoreposapp.R
 
@@ -40,7 +41,11 @@ class NavFragment : Fragment(), View.OnClickListener {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_nav, container, false)
         val addButton: LinearLayout = view.findViewById(R.id.addButton)
+        val cartButton: LinearLayout = view.findViewById(R.id.cartButton)
+        val homeButton: LinearLayout = view.findViewById(R.id.homeButton)
         addButton.setOnClickListener(this)
+        cartButton.setOnClickListener(this)
+        homeButton.setOnClickListener(this)
         return view
     }
 
@@ -68,10 +73,17 @@ class NavFragment : Fragment(), View.OnClickListener {
         when (p0?.id) {
             R.id.addButton -> {
                 val intent = Intent(requireContext(), AddBookActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
             R.id.homeButton -> {
                 val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            R.id.cartButton -> {
+                val intent = Intent(requireContext(), CartActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
         }

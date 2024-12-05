@@ -15,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.API.ApiResponseBook
 import com.example.bookstoreposapp.adapters.BookRVAdapter
 import com.example.bookstoreposapp.adapters.RetrofitInstance
+import com.example.bookstoreposapp.database.CartDatabase
 import com.example.bookstoreposapp.fragment.NavFragment
+import com.example.bookstoreposapp.model.CartItem
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,9 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
+    private lateinit var qrCodeButton: ImageButton
     private var bookList = ArrayList<BookData>()
     private lateinit var bookRVAdapter: BookRVAdapter
-    private lateinit var qrCodeButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +57,15 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
-            .addToBackStack(null)
             .commit()
 
+        val db = CartDatabase.getDatabase(this)
+        val cartDao = db.cartDao()
+
+        val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
+        GlobalScope.launch {
+            cartDao.insertCartItem(newItem)
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -68,11 +78,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-        qrCodeButton.setOnClickListener {
-            startQRScanner()
-        }
     }
+
+//    private fun addDataToList(){
+//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
+//        bookList.add(BookData("Kotlin Programming", 1, "New", "29.99", "29.99"))
+//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
+//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
+//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
+//    }
 
     private fun filterList(query: String?){
         if(query != null){

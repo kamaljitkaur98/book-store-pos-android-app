@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -75,4 +76,13 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.android.material:material:1.11.0")
+    implementation(libs.converter.gson)
+    implementation (libs.glide)
+    implementation (libs.zxing.android.embedded)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.kotlin.stdlib)
+    ksp(libs.androidx.room.compiler) // For Kotlin
+
 }

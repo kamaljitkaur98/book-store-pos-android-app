@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bookstoreposapp.MainActivity
 import com.example.bookstoreposapp.R
 import com.example.bookstoreposapp.adapters.RetrofitInstance
 import com.example.bookstoreposapp.fragment.NavFragment
@@ -28,7 +29,6 @@ class AddBookActivity: AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
-            .addToBackStack(null)
             .commit()
         val addInventoryButton: MaterialButton = findViewById(R.id.button_add_inventory)
 

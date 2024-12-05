@@ -4,13 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.bookstoreposapp.database.CartDatabase
 import com.example.bookstoreposapp.fragment.NavFragment
+import com.example.bookstoreposapp.model.CartItem
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class BookDetailActivity: AppCompatActivity() {
 
@@ -43,9 +48,26 @@ class BookDetailActivity: AppCompatActivity() {
         youtubeWebView.loadData(videoURL,"text/html", "utf-8")
         youtubeWebView.settings.javaScriptEnabled = true
         youtubeWebView.webChromeClient = WebChromeClient()
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        val db = CartDatabase.getDatabase(this)
+        val cartDao = db.cartDao()
+
+        val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
+        GlobalScope.launch {
+            cartDao.insertCartItem(newItem)
+        }
+        val addToCartButton: Button = findViewById(R.id.addToCartButton)
+        addToCartButton.setOnClickListener {
+            val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
+            GlobalScope.launch {
+                cartDao.insertCartItem(newItem)
+            }
+            addToCartButton.text = "ADDED TO CART"
+        }
     }
-
-
 
     private fun populateBookDetails(book: BookData) {
         Glide.with(this)
