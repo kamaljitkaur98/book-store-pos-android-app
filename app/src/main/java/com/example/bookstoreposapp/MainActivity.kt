@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var qrCodeButton: ImageButton
     private var bookList = ArrayList<BookData>()
     private lateinit var bookRVAdapter: BookRVAdapter
-
+    private var allBooks = ArrayList<BookData>()
+    private var displayList = ArrayList<BookData>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         fetchBooks(RetrofitInstance.api)
-        bookRVAdapter = BookRVAdapter(bookList, this)
+        bookRVAdapter = BookRVAdapter(displayList, this)
         recyclerView.adapter = bookRVAdapter
 
         val fragment = NavFragment()
@@ -69,50 +70,41 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        qrCodeButton.setOnClickListener {
+            startQRScanner()
+        }
     }
 
 
     private fun filterList(query: String?){
-        if(query != null){
             val filteredList = ArrayList<BookData>()
-            for(i in bookList){
-                if(i.title.toLowerCase(Locale.ROOT).contains(query)){
-                    filteredList.add(i)
+    if(query != null && query.isNotEmpty()){
+        allBooks.forEach {
+            if (it.title.contains(query, ignoreCase = true) || it.isbn.contains(query, ignoreCase = true)
+                || it.authors.contains(query, ignoreCase = true) || it.id.contains(query, ignoreCase = true)) {
+                if (!it.availability) it.isVisible = true  // Only make unavailable books visible when they match the search
+                filteredList.add(it)
                 }
-                if(i.isbn.toLowerCase(Locale.ROOT).contains(query)){
-                    filteredList.add(i)
                 }
-                if(i.authors.toLowerCase(Locale.ROOT).contains(query)){
-                    filteredList.add(i)
                 }
-                if(i.id.toLowerCase(Locale.ROOT).contains(query)){
-                    filteredList.add(i)
-                }
-
-            }
-
+    bookRVAdapter.setFilteredList(filteredList)
             if(filteredList.isEmpty()){
                 Toast.makeText(this, "No Matching Books found", Toast.LENGTH_SHORT).show()
-                bookRVAdapter.setFilteredList(filteredList)
-            }else{
-                bookRVAdapter.setFilteredList(filteredList)
             }
         }
-    }
+
 
     private fun fetchBooks(service: BookApiService) {
         service.getBooks().enqueue(object : Callback<List<ApiResponseBook>> {
-            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<ApiResponseBook>>, response: Response<List<ApiResponseBook>>) {
                 if (response.isSuccessful) {
-                    Log.e("MainActivity", "Succcess: Building book list")
                     response.body()?.let {
-
+                    allBooks.clear()
                         it.forEach { apiBook ->
-                            if(apiBook.availability){
-                                bookList.add(mapToBookData(apiBook))
+                        allBooks.add(mapToBookData(apiBook))
                             }
-                        }
+                    displayList.addAll(allBooks)
                         bookRVAdapter.notifyDataSetChanged()
 
                     }
@@ -157,17 +149,19 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
-            } else {
-                val scannedId = result.contents
-                val searchView: SearchView = findViewById(R.id.search_view)
-                searchView.setQuery(scannedId, true)
-                Toast.makeText(this, "Scanned: $scannedId", Toast.LENGTH_SHORT).show()
+        if (result != null && result.contents != null) {
+            allBooks.forEach {
+                if (it.id == result.contents) {
+                    it.availability = false
+                    it.isVisible = true
+
+                }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+            filterList(result.contents)
+            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_SHORT).show()
+        } else if (result != null) {
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
+
 }

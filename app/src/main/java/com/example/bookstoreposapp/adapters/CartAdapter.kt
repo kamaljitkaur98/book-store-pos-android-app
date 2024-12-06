@@ -95,10 +95,12 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
     fun calculateTotalAndSeparateItems(cartItems: List<CartItem>) {
         totalAmount = 0.0
         for (item in cartItems) {
-            when (item.status) {
-                "New" -> totalAmount += item.discountedPrice.toDouble()
-                "Old" -> totalAmount -= item.discountedPrice.toDouble()
+            if(item.availability){
+                totalAmount += item.discountedPrice.toDouble()
+            }else{
+                totalAmount -= item.discountedPrice.toDouble()
             }
+
         }
 
         (context as Activity).runOnUiThread {
