@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.bookstoreposapp.database.CartDatabase
@@ -22,7 +21,6 @@ class BookDetailActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.book_details_activity)
         val book = intent.getSerializableExtra("bookData") as BookData
         book?.let { populateBookDetails(it) }
@@ -31,13 +29,11 @@ class BookDetailActivity: AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
-            .addToBackStack(null)
             .commit()
 
         val backButton: ImageButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish() // Navigate back
         }
 
         // Youtube Video Uploaded
@@ -80,4 +76,13 @@ class BookDetailActivity: AppCompatActivity() {
         val originalPriceTextView: TextView = findViewById(R.id.originalPrice)
         originalPriceTextView.paintFlags = originalPriceTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack() // Navigate back in fragment stack
+        } else {
+            super.onBackPressed() // Finish the activity
+        }
+    }
+
 }
