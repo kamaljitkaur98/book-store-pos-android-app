@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.content.Intent
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.bookstoreposapp.API.add.AddBookActivity
@@ -41,14 +42,19 @@ class NavFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_nav, container, false)
-        val addButton: LinearLayout = view.findViewById(R.id.addButton)
-        val cartButton: LinearLayout = view.findViewById(R.id.cartButton)
-        val homeButton: LinearLayout = view.findViewById(R.id.homeButton)
-        addButton.setOnClickListener(this)
-        cartButton.setOnClickListener(this)
-        homeButton.setOnClickListener(this)
-        return view
+        try {
+            val view : View = inflater . inflate (R.layout.fragment_nav, container, false)
+            val addButton: LinearLayout = view.findViewById(R.id.addButton)
+            val cartButton: LinearLayout = view.findViewById(R.id.cartButton)
+            val homeButton: LinearLayout = view.findViewById(R.id.homeButton)
+            addButton.setOnClickListener(this)
+            cartButton.setOnClickListener(this)
+            homeButton.setOnClickListener(this)
+            return view
+        } catch (e: Exception) {
+            Log.e("NavFragment", "Error inflating layout: ${e.message}")
+            throw e
+        }
     }
 
     companion object {

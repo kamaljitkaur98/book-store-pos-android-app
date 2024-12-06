@@ -1,6 +1,7 @@
 package com.example.bookstoreposapp
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -72,8 +73,11 @@ class BookDetailActivity: AppCompatActivity() {
         findViewById<TextView>(R.id.bookTitle).text = book.title
         findViewById<TextView>(R.id.originalPrice).text = book.originalPrice
         findViewById<TextView>(R.id.ownershipStatus).text = book.status
+        findViewById<TextView>(R.id.discountedPrice).text = book.discountedPrice
         findViewById<TextView>(R.id.description).text = "Sample Description"
         findViewById<TextView>(R.id.isbnInfo).text = "ISBN: ${book.isbn}"
         findViewById<TextView>(R.id.uuidInfo).text = "UUID: ${book.id}"
+        val originalPriceTextView: TextView = findViewById(R.id.originalPrice)
+        originalPriceTextView.paintFlags = originalPriceTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
 }

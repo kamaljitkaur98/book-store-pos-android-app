@@ -15,10 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="15dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
 
             <!-- Back Button using Material Icon -->
             <ImageButton
@@ -40,7 +36,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-        </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -48,7 +43,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="56dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +57,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -105,11 +102,11 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- Bottom Navigation Fragment -->
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_nav_fragment"
         android:name="com.example.bookstoreposapp.fragment.NavFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_gravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

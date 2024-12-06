@@ -3,6 +3,7 @@ package com.example.bookstoreposapp.adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,6 +72,7 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
         holder.title.text = cartItems[position].itemName
         holder.status.text = "Owners: ${cartItems[position].status}"
         holder.originalPrice.text = cartItems[position].originalPrice
+        holder.originalPrice.paintFlags = holder.originalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         holder.discountedPrice.text = cartItems[position].discountedPrice
         holder.retailStatus.text = if (cartItems[position].availability) "Retailing" else "BuyBack"
 

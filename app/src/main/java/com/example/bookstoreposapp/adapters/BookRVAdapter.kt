@@ -3,6 +3,7 @@ package com.example.bookstoreposapp.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.bookstoreposapp.BookData
 import com.example.bookstoreposapp.BookDetailActivity
 import com.example.bookstoreposapp.R
+import com.google.android.material.textview.MaterialTextView
 
 
 class BookRVAdapter(var bookList: List<BookData>, private val context: Context) :
@@ -25,6 +27,8 @@ class BookRVAdapter(var bookList: List<BookData>, private val context: Context) 
         val status: TextView = itemView.findViewById(R.id.status)
         val originalPrice: TextView = itemView.findViewById(R.id.originalPrice)
         val discountedPrice: TextView = itemView.findViewById(R.id.discountedPrice)
+
+
 
         val cardView: CardView = itemView.findViewById(R.id.book_card_view)
 
@@ -54,6 +58,7 @@ class BookRVAdapter(var bookList: List<BookData>, private val context: Context) 
         holder.title.text = bookList[position].title
         holder.status.text = bookList[position].status
         holder.originalPrice.text = bookList[position].originalPrice
+        holder.originalPrice.paintFlags = holder.originalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         holder.discountedPrice.text = bookList[position].discountedPrice
         //holder.logo.setImageResource(bookList[position].image)
         Glide.with(context)

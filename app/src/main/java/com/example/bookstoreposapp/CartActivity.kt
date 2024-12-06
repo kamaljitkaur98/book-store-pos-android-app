@@ -2,6 +2,7 @@ package com.example.bookstoreposapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
@@ -25,6 +26,7 @@ class CartActivity: AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: CartViewModel
+    private var recyclerViewState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +34,14 @@ class CartActivity: AppCompatActivity() {
         setContentView(R.layout.user_cart)
         viewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
-        val fragment = NavFragment()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.bottom_nav_fragment, fragment)
-            .commit()
+        if (savedInstanceState == null) {
+            val fragment = NavFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.bottom_nav_fragment, fragment)
+                .commit()
+        }
+
 
         recyclerView = findViewById(R.id.recycler_view)
 
@@ -52,16 +57,31 @@ class CartActivity: AppCompatActivity() {
         }
         recyclerView.adapter = cartAdapter
 
-        proceedButton.setOnClickListener{
+        proceedButton.setOnClickListener {
             val intent = Intent(this, CheckoutActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
 
-        backButton.setOnClickListener{
+        backButton.setOnClickListener {
             println("Press registered")
             onBackPressed()
         }
-
     }
+
+        override fun onSaveInstanceState(outState: Bundle) {
+            super.onSaveInstanceState(outState)
+            recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
+            outState.putParcelable("recycler_state", recyclerViewState)
+        }
+
+        override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+            super.onRestoreInstanceState(savedInstanceState)
+            recyclerViewState = savedInstanceState.getParcelable("recycler_state")
+            if (recyclerViewState != null) {
+                recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+            }
+        }
+
+
 }

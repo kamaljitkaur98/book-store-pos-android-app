@@ -14,7 +14,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:layout_gravity="top"
+        app:layout_scrollFlags="scroll|enterAlways">
         
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,17 +48,24 @@
     </androidx.appcompat.widget.Toolbar>
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="50dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
     <!-- Toolbar -->
     <RelativeLayout
         android:id="@+id/layout_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp">
 
 
@@ -188,13 +197,19 @@
         android:paddingEnd="32dp"
         android:text="Add To Inventory"
         android:textAllCaps="false"
+        android:layout_marginBottom="20dp"
         app:cornerRadius="24dp" />
 
-</LinearLayout>
-    <fragment
+    </LinearLayout>
+    </ScrollView>
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_nav_fragment"
         android:name="com.example.bookstoreposapp.fragment.NavFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="4dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
