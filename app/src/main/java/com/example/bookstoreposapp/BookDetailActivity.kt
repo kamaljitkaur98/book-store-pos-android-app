@@ -34,9 +34,6 @@ class BookDetailActivity: AppCompatActivity() {
             .commit()
 
         val backButton: ImageButton = findViewById(R.id.backButton)
-//        backButton.setOnClickListener {
-//            onBackPressed()
-//        }
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -55,13 +52,10 @@ class BookDetailActivity: AppCompatActivity() {
         val db = CartDatabase.getDatabase(this)
         val cartDao = db.cartDao()
 
-        val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
-        GlobalScope.launch {
-            cartDao.insertCartItem(newItem)
-        }
         val addToCartButton: Button = findViewById(R.id.addToCartButton)
         addToCartButton.setOnClickListener {
-            val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
+            val newItem = CartItem(itemId = book.id, itemName = book.title, originalPrice = book.originalPrice,
+                discountedPrice = book.discountedPrice, status = book.status, availability = book.availability)
             GlobalScope.launch {
                 cartDao.insertCartItem(newItem)
             }
@@ -71,10 +65,10 @@ class BookDetailActivity: AppCompatActivity() {
 
     private fun populateBookDetails(book: BookData) {
         Glide.with(this)
-            .load(book.image) // URL of the image
-            .placeholder(R.drawable.default_book_image) // Optional: Placeholder image
-            .error(R.drawable.default_book_image) // Optional: Error image if loading fails
-            .into(findViewById(R.id.bookImage)) // Target ImageView
+            .load(book.image)
+            .placeholder(R.drawable.default_book_image)
+            .error(R.drawable.default_book_image)
+            .into(findViewById(R.id.bookImage))
         findViewById<TextView>(R.id.bookTitle).text = book.title
         findViewById<TextView>(R.id.originalPrice).text = book.originalPrice
         findViewById<TextView>(R.id.ownershipStatus).text = book.status

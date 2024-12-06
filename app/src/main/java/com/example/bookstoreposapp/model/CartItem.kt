@@ -10,6 +10,7 @@ data class CartItem(
     val itemName: String,
     val originalPrice: String,
     val discountedPrice: String,
-    val status: String
+    val status: String,
+    val availability: Boolean
 )
 

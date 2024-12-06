@@ -28,8 +28,6 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     var totalAmount = 0.00
-    val newCartItems = mutableListOf<CartItem>()
-    val oldCartItems = mutableListOf<CartItem>()
 
     val db = CartDatabase.getDatabase(context)
     val cartDao = db.cartDao()
@@ -74,11 +72,11 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
         holder.status.text = "Owners: ${cartItems[position].status}"
         holder.originalPrice.text = cartItems[position].originalPrice
         holder.discountedPrice.text = cartItems[position].discountedPrice
-        holder.retailStatus.text = if (cartItems[position].status == "New") "Retailing" else "BuyBack"
+        holder.retailStatus.text = if (cartItems[position].availability) "Retailing" else "BuyBack"
 
-        when (cartItems[position].status) {
-            "New" -> holder.cardView.setCardBackgroundColor(context.getColor(R.color.new_book))
-            "Old" -> holder.cardView.setCardBackgroundColor(context.getColor(R.color.used_book))
+        when (cartItems[position].availability) {
+            true -> holder.cardView.setCardBackgroundColor(context.getColor(R.color.new_book))
+            false -> holder.cardView.setCardBackgroundColor(context.getColor(R.color.used_book))
         }
         holder.deleteButton.setOnClickListener {
             GlobalScope.launch {
@@ -96,20 +94,10 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
 
     fun calculateTotalAndSeparateItems(cartItems: List<CartItem>) {
         totalAmount = 0.0
-        newCartItems.clear()
-        oldCartItems.clear()
         for (item in cartItems) {
             when (item.status) {
-                "New" -> {
-                    // Add amount for new items
-                    totalAmount += item.discountedPrice.toDouble()
-                    newCartItems.add(item)
-                }
-                "Old" -> {
-                    // Subtract amount for old items
-                    totalAmount -= item.discountedPrice.toDouble()
-                    oldCartItems.add(item)
-                }
+                "New" -> totalAmount += item.discountedPrice.toDouble()
+                "Old" -> totalAmount -= item.discountedPrice.toDouble()
             }
         }
 

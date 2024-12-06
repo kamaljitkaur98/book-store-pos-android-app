@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        //addDataToList()
         fetchBooks(RetrofitInstance.api)
         bookRVAdapter = BookRVAdapter(bookList, this)
         recyclerView.adapter = bookRVAdapter
@@ -58,14 +57,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.bottom_nav_fragment, fragment)
             .commit()
-
-        val db = CartDatabase.getDatabase(this)
-        val cartDao = db.cartDao()
-
-        val newItem = CartItem(itemId = "1", itemName = "Book A", originalPrice = "13.99", discountedPrice = "10.99", status = "New")
-        GlobalScope.launch {
-            cartDao.insertCartItem(newItem)
-        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -80,13 +71,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-//    private fun addDataToList(){
-//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
-//        bookList.add(BookData("Kotlin Programming", 1, "New", "29.99", "29.99"))
-//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
-//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
-//        bookList.add(BookData("Android Programming", 1, "New", "29.99", "29.99"))
-//    }
 
     private fun filterList(query: String?){
         if(query != null){
@@ -125,7 +109,9 @@ class MainActivity : AppCompatActivity() {
                     response.body()?.let {
 
                         it.forEach { apiBook ->
-                            bookList.add(mapToBookData(apiBook))
+                            if(apiBook.availability){
+                                bookList.add(mapToBookData(apiBook))
+                            }
                         }
                         bookRVAdapter.notifyDataSetChanged()
 
@@ -153,7 +139,8 @@ class MainActivity : AppCompatActivity() {
             id = apiBook.id,
             transactionCount = apiBook.transactionCount,
             authors = apiBook.authors,
-            edition = apiBook.edition
+            edition = apiBook.edition,
+            availability = apiBook.availability
         )
     }
 

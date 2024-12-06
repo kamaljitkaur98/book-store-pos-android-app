@@ -9,16 +9,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bookstoreposapp.adapters.RetrofitInstance
 import com.example.bookstoreposapp.database.CartDatabase
 import com.example.bookstoreposapp.model.CartItem
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CheckoutActivity : AppCompatActivity() {
 
     var totalAmount = 0.00
-    val newCartItems = mutableListOf<CartItem>()
-    val oldCartItems = mutableListOf<CartItem>()
+    val buyingBackList = mutableListOf<CartItem>()
+    val sellingList = mutableListOf<CartItem>()
 
     val db = CartDatabase.getDatabase(this)
     val cartDao = db.cartDao()
@@ -39,25 +45,20 @@ class CheckoutActivity : AppCompatActivity() {
         // Toolbar Views
         val backButton: ImageButton = findViewById(R.id.backButton)
 
-        val cashButton: Button = findViewById(R.id.cashButton)
-        val cardButton: Button = findViewById(R.id.cardButton)
+        val paymentButton: Button = findViewById(R.id.proceedToPayment)
 
         backButton.setOnClickListener {
             onBackPressed() // Navigate back
         }
 
-        cashButton.setOnClickListener {
-            // Handle Cash Button Click
-            handlePayment("Cash")
-        }
-
-        cardButton.setOnClickListener {
-            // Handle Card Button Click
-            handlePayment("Card")
+        paymentButton.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch{
+                handlePayment()
+            }
         }
     }
 
-    private fun handlePayment(paymentMethod: String) {
+    private suspend fun handlePayment() {
         val nameInput: TextInputEditText = findViewById(R.id.user_name)
         val emailInput: TextInputEditText = findViewById(R.id.user_phone_number)
         val phoneInput: TextInputEditText = findViewById(R.id.user_email)
@@ -69,36 +70,31 @@ class CheckoutActivity : AppCompatActivity() {
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields before proceeding", Toast.LENGTH_SHORT).show()
         } else {
-        when (paymentMethod) {
-            "Cash" -> {
-                // Handle cash payment
-                showSuccessPopup()
-                Toast.makeText(this, "Payment Successful using Cash", Toast.LENGTH_SHORT).show()
-            }
-            "Card" -> {
-                // Handle card payment
-                showSuccessPopup()
-                Toast.makeText(this, "Payment Successful using Card", Toast.LENGTH_SHORT).show()
-            }
+                val isSuccess = handlePurchase()
+                if(isSuccess){
+                    showSuccessPopup()
+                    Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun calculateTotalAndSeparateItems(cartItems: List<CartItem>) : Double {
+    private fun calculateTotalAndSeparateItems(cartItems: List<CartItem>) : Double {
         totalAmount = 0.0
-        newCartItems.clear()
-        oldCartItems.clear()
+        buyingBackList.clear()
+        sellingList.clear()
         for (item in cartItems) {
-            when (item.status) {
-                "New" -> {
+            when (item.availability) {
+                true -> {
                     // Add amount for new items
                     totalAmount += item.discountedPrice.toDouble()
-                    newCartItems.add(item)
+                    sellingList.add(item)
                 }
-                "Old" -> {
+                false -> {
                     // Subtract amount for old items
                     totalAmount -= item.discountedPrice.toDouble()
-                    oldCartItems.add(item)
+                    buyingBackList.add(item)
                 }
             }
         }
@@ -111,52 +107,58 @@ class CheckoutActivity : AppCompatActivity() {
 
         val successMessage = dialog.findViewById<TextView>(R.id.successMessage)
         val successIcon = dialog.findViewById<ImageView>(R.id.successIcon)
-
-        // Customize message or icon if needed
         successMessage.text = "Purchase Successful"
         successIcon.setImageResource(R.drawable.ic_check_circle)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(true) // Make the dialog dismissible
+        dialog.setCancelable(true)
         dialog.show()
     }
 
 
-//    private fun handlePurchase() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val apiService = RetrofitInstance.api
-//            var totalAmount = 0.0
-//            var lastTransactionId = ""
-//
-//            val deferredResponses = bookList.map { book ->
-//                async {
-//                    try {
-//                        if (book.second == "AVAILABLE") {
-//                            apiService.sellBook(book.first)
-//                        } else {
-//                            apiService.buyBack(book.first)
-//                        }
-//                    } catch (e: Exception) {
-//                        null // Handle error gracefully
-//                    }
-//                }
-//            }
-//
-//            val responses = deferredResponses.awaitAll()
-//            responses.filterNotNull().forEach { response ->
-//                totalAmount += response.amount
-//                lastTransactionId = response.transactionId
-//            }
-//
-//            withContext(Dispatchers.Main) {
-//                loadNextActivity(totalAmount, lastTransactionId)
-//            }
-//        }
-//    }
+    private suspend fun handlePurchase(): Boolean {
+        var isPaymentSuccessful = true
 
-//    private fun loadNextActivity(totalAmount: Double, lastTransactionId: String) {
-//        val intent = Intent(this, NextActivity::class.java)
-//        intent.putExtra("totalAmount", totalAmount)
-//        intent.putExtra("lastTransactionId", lastTransactionId)
-//        startActivity(intent)
+        // Running on the IO dispatcher for network calls
+        withContext(Dispatchers.IO) {
+            val apiService = RetrofitInstance.api
+            var transactionId = ""
+
+            // Handle new cart items
+            if (sellingList.isNotEmpty()) {
+                sellingList.forEach { item ->
+                    val call = apiService.sellBook(item.itemId)
+                    val response = call.execute()
+                    if (response.isSuccessful) {
+                        val apiResponse = response.body()
+                        transactionId = apiResponse?.transactionId ?: ""
+                        cartDao.deleteCartItem(item)
+                    } else {
+                        isPaymentSuccessful = false
+                        println("Error: ${response.message()}")
+                    }
+                }
+            }
+
+            // Handle old cart items
+            if (buyingBackList.isNotEmpty()) {
+                buyingBackList.forEach { item ->
+                    val call = apiService.buyBack(item.itemId)
+                    val response = call.execute()
+                    if (response.isSuccessful) {
+                        val apiResponse = response.body()
+                        transactionId = apiResponse?.transactionId ?: ""
+                        cartDao.deleteCartItem(item)
+                    } else {
+                        isPaymentSuccessful = false
+                        println("Error: ${response.message()}")
+                    }
+                }
+            }
+        }
+
+        return isPaymentSuccessful
     }
+
+
+}

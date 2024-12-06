@@ -9,7 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface BookApiService {
-    @GET("api/inventory")
+    @GET("api/inventory/all")
     fun getBooks(): Call<List<ApiResponseBook>>
 
     @GET("api/inventory/isbn/{isbn}")

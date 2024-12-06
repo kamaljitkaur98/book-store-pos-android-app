@@ -9,5 +9,6 @@ data class ApiResponseBook(
     val authors: String,
     val edition: String,
     val basePrice: Double,
-    val imageURL: String
+    val imageURL: String,
+    val availability: Boolean
 )

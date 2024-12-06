@@ -49,7 +49,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <!-- Toolbar -->
         <RelativeLayout
@@ -58,28 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="24dp">
-
-
-            <!--        <ImageButton-->
-            <!--            android:id="@+id/button_back"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_alignParentStart="true"-->
-            <!--            android:layout_centerVertical="true"-->
-            <!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-            <!--            android:padding="8dp"-->
-            <!--            android:src="@drawable/ic_back_icon" />-->
-
-
-            <!--        <ImageButton-->
-            <!--            android:id="@+id/button_qr_scan"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_alignParentEnd="true"-->
-            <!--            android:layout_centerVertical="true"-->
-            <!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-            <!--            android:padding="8dp"-->
-            <!--            android:src="@drawable/ic_qr_code" />-->
         </RelativeLayout>
 
         <!-- Book Name Input -->
@@ -155,13 +134,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_phone_number" />
 
-        <!-- Total -->
     <LinearLayout
         android:id="@+id/totalLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/emailReceiptCheckbox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="20dp"
@@ -196,59 +173,15 @@
             android:textAlignment="textEnd"/>
 
     </LinearLayout>
-        <!-- Email Receipt Checkbox -->
-        <CheckBox
-            android:id="@+id/emailReceiptCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email Receipt"
-            android:textColor="#000000"
-            android:layout_marginLeft="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/totalLabel" />
 
-        <LinearLayout
-            android:id="@+id/paymentButtonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp"
-            app:layout_constraintTop_toBottomOf="@id/emailReceiptCheckbox"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/cashButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cash"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#5C5470"
-                android:layout_marginEnd="16dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                app:cornerRadius="16dp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/cardButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Card"
-                android:backgroundTint="#5C5470"
-                android:textColor="#FFFFFF"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                app:cornerRadius="16dp" />
-        </LinearLayout>
-
-
-
+    <Button
+        android:id="@+id/proceedToPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cart_button_background"
+        android:backgroundTint="#5C5470"
+        android:text="PAY NOW"
+        android:textColor="#FFFFFF" />
 
     </LinearLayout>
     <fragment
