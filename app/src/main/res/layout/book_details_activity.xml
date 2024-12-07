@@ -94,15 +94,6 @@
                 android:text="Owners : New"
                 android:textColor="#757575" />
 
-            <!-- Description -->
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="The &quot;Big Nerd Ranch&quot; series is already known for their extensive and high-quality coding and development courses, and this book is no exception. Although it is geared more towards developers with a greater previous knowledge of Java, the guide doesn't require the reader to have any previous..."
-                android:textColor="#757575" />
-
             <!-- ISBN Info -->
             <TextView
                 android:id="@+id/isbnInfo"

@@ -38,7 +38,7 @@ class BookDetailActivity: AppCompatActivity() {
 
         // Youtube Video Uploaded
         val youtubeWebView: WebView = findViewById(R.id.youtubeWebView)
-        val videoURL = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=jAxh0SCxk4sRTYa7\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        val videoURL = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/5k5Ln4-8_QM?si=LFd0vjEJ67zRsfuw\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         youtubeWebView.loadData(videoURL,"text/html", "utf-8")
         youtubeWebView.settings.javaScriptEnabled = true
         youtubeWebView.webChromeClient = WebChromeClient()
@@ -70,7 +70,6 @@ class BookDetailActivity: AppCompatActivity() {
         findViewById<TextView>(R.id.originalPrice).text = book.originalPrice
         findViewById<TextView>(R.id.ownershipStatus).text = book.status
         findViewById<TextView>(R.id.discountedPrice).text = book.discountedPrice
-        findViewById<TextView>(R.id.description).text = "Sample Description"
         findViewById<TextView>(R.id.isbnInfo).text = "ISBN: ${book.isbn}"
         findViewById<TextView>(R.id.uuidInfo).text = "UUID: ${book.id}"
         val originalPriceTextView: TextView = findViewById(R.id.originalPrice)
