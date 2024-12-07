@@ -102,7 +102,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun showSuccessPopup() {
-        val dialog = Dialog(this, R.style.PauseDialog)
+        val dialog = Dialog(this, R.style.PauseDialog) //fade in and out animation
         dialog.setContentView(R.layout.popup_success)
 
         val successMessage = dialog.findViewById<TextView>(R.id.successMessage)
