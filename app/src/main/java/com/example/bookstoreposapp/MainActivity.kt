@@ -114,11 +114,11 @@ class MainActivity : AppCompatActivity() {
                     allBooks.clear()
                         it.forEach { apiBook ->
                         allBooks.add(mapToBookData(apiBook))
-//                            if(apiBook.availability){
-//                                displayList.add(mapToBookData(apiBook))
-//                            }
+                            if(apiBook.availability){
+                                displayList.add(mapToBookData(apiBook))
+                            }
                         }
-                        displayList.addAll(allBooks)
+                        //displayList.addAll(allBooks)
                         bookRVAdapter.notifyDataSetChanged()
 
                     }
@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity() {
         if (result != null && result.contents != null) {
             allBooks.forEach {
                 if (it.id == result.contents) {
-                    it.availability = false
                     it.isVisible = true
 
                 }

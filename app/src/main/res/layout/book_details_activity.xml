@@ -93,6 +93,13 @@
                 android:layout_marginTop="16dp"
                 android:text="Owners : New"
                 android:textColor="#757575" />
+            <TextView
+                android:id="@+id/authorinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Authors:"
+                android:textColor="#757575" />
 
             <!-- ISBN Info -->
             <TextView

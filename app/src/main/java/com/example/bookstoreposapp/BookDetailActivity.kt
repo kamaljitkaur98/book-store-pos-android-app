@@ -67,11 +67,12 @@ class BookDetailActivity: AppCompatActivity() {
             .error(R.drawable.default_book_image)
             .into(findViewById(R.id.bookImage))
         findViewById<TextView>(R.id.bookTitle).text = book.title
-        findViewById<TextView>(R.id.originalPrice).text = book.originalPrice
+        findViewById<TextView>(R.id.originalPrice).text = "$ ${book.originalPrice}"
         findViewById<TextView>(R.id.ownershipStatus).text = book.status
-        findViewById<TextView>(R.id.discountedPrice).text = book.discountedPrice
+        findViewById<TextView>(R.id.discountedPrice).text = "$ ${book.discountedPrice}"
         findViewById<TextView>(R.id.isbnInfo).text = "ISBN: ${book.isbn}"
         findViewById<TextView>(R.id.uuidInfo).text = "UUID: ${book.id}"
+        findViewById<TextView>(R.id.authorinfo).text = "Authors: ${book.authors}"
         val originalPriceTextView: TextView = findViewById(R.id.originalPrice)
         originalPriceTextView.paintFlags = originalPriceTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     }
