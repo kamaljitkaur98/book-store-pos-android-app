@@ -18,7 +18,7 @@
         android:text="Purchase Successful"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="@color/purple_500"
         android:gravity="center"
         android:layout_marginBottom="16dp" />
 
@@ -29,5 +29,5 @@
         android:layout_height="80dp"
         android:src="@drawable/ic_check_circle"
         android:contentDescription="ICON"
-        app:tint="#4CAF50" />
+        app:tint="@color/purple_200" />
 </LinearLayout>
