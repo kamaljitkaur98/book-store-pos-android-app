@@ -26,7 +26,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".API.add.AddBookActivity" android:theme="@style/Theme.BookStorePOSApp"/>
-        <activity android:name=".BookDetailActivity" android:theme="@style/Theme.BookStorePOSApp"/>
+        <activity android:name=".BookDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".API.add.PurchaseDetailsActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".CheckoutActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity

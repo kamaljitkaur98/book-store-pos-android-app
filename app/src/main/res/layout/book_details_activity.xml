@@ -142,12 +142,13 @@
     </ScrollView>
 
     <!-- Bottom Navigation Fragment -->
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_nav_fragment"
         android:name="com.example.bookstoreposapp.fragment.NavFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

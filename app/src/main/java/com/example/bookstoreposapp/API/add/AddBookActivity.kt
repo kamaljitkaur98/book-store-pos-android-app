@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bookstoreposapp.MainActivity
 import com.example.bookstoreposapp.R
@@ -22,7 +21,6 @@ import java.math.BigDecimal
 class AddBookActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.add_book_activity)
 
         val fragment = NavFragment()
