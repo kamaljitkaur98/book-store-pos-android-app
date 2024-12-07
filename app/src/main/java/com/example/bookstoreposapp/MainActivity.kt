@@ -17,6 +17,8 @@ import com.example.bookstoreposapp.adapters.RetrofitInstance
 import com.example.bookstoreposapp.database.CartDatabase
 import com.example.bookstoreposapp.fragment.NavFragment
 import com.example.bookstoreposapp.model.CartItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -33,17 +35,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var qrCodeButton: ImageButton
-    private var bookList = ArrayList<BookData>()
     private lateinit var bookRVAdapter: BookRVAdapter
     private var allBooks = ArrayList<BookData>()
     private var displayList = ArrayList<BookData>()
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        auth = FirebaseAuth.getInstance()
+        checkUserSignedIn()
+
         recyclerView = findViewById(R.id.recycler_view)
         searchView = findViewById(R.id.search_view)
         qrCodeButton = findViewById(R.id.qr_code_button)
+        val signout = findViewById<FloatingActionButton>(R.id.fab)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -72,6 +79,12 @@ class MainActivity : AppCompatActivity() {
         qrCodeButton.setOnClickListener {
             startQRScanner()
         }
+
+        signout.setOnClickListener {
+            auth.signOut()
+            Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
 
@@ -92,9 +105,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
     private fun fetchBooks(service: BookApiService) {
         service.getBooks().enqueue(object : Callback<List<ApiResponseBook>> {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<ApiResponseBook>>, response: Response<List<ApiResponseBook>>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
@@ -165,4 +178,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkUserSignedIn() {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
 }

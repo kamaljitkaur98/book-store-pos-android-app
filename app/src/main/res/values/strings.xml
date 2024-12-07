@@ -8,4 +8,5 @@
     <string name="delete">Delete</string>
     <string name="retailing">Retailing</string>
     <string name="proceed_to_checkout">PROCEED TO CHECKOUT</string>
+    <string name="log_out">Log Out</string>
 </resources>

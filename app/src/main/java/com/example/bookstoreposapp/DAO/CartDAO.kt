@@ -6,6 +6,9 @@ import com.example.bookstoreposapp.model.CartItem
 
 @Dao
 interface CartDao {
+    @Query("SELECT COUNT(*) FROM cart_items")
+    fun getCartItemCount(): LiveData<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCartItem(cartItem: CartItem)
 

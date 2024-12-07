@@ -11,6 +11,10 @@ class CartRepository(private val cartDao: CartDao) {
         cartDao.insertCartItem(cartItem)
     }
 
+    fun getCartItemCount(): LiveData<Int> {
+        return cartDao.getCartItemCount()
+    }
+
     suspend fun deleteCartItem(cartItem: CartItem) {
         cartDao.deleteCartItem(cartItem)
     }

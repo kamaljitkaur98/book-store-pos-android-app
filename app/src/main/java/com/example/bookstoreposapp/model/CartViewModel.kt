@@ -18,6 +18,10 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         allCartItems = repository.allCartItems
     }
 
+    fun getCartItemCount(): LiveData<Int> {
+        return repository.getCartItemCount()
+    }
+
     fun insertCartItem(cartItem: CartItem) = viewModelScope.launch {
         repository.insertCartItem(cartItem)
     }

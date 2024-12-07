@@ -31,6 +31,7 @@
             android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".API.add.PurchaseDetailsActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity android:name=".CheckoutActivity" android:theme="@style/Theme.BookStorePOSApp"/>
+        <activity android:name=".LoginActivity" android:theme="@style/Theme.BookStorePOSApp"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
