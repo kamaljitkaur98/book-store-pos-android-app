@@ -102,7 +102,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun showSuccessPopup() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this, R.style.PauseDialog)
         dialog.setContentView(R.layout.popup_success)
 
         val successMessage = dialog.findViewById<TextView>(R.id.successMessage)
@@ -135,7 +135,7 @@ class CheckoutActivity : AppCompatActivity() {
                         cartDao.deleteCartItem(item)
                     } else {
                         isPaymentSuccessful = false
-                        println("Error: ${response.message()}")
+                        println("Error: ${response.body()}")
                     }
                 }
             }
@@ -144,6 +144,7 @@ class CheckoutActivity : AppCompatActivity() {
             if (buyingBackList.isNotEmpty()) {
                 buyingBackList.forEach { item ->
                     val call = apiService.buyBack(item.itemId)
+                    println(item)
                     val response = call.execute()
                     if (response.isSuccessful) {
                         val apiResponse = response.body()
@@ -151,7 +152,7 @@ class CheckoutActivity : AppCompatActivity() {
                         cartDao.deleteCartItem(item)
                     } else {
                         isPaymentSuccessful = false
-                        println("Error: ${response.message()}")
+                        println("Error: ${response}")
                     }
                 }
             }
@@ -159,6 +160,4 @@ class CheckoutActivity : AppCompatActivity() {
 
         return isPaymentSuccessful
     }
-
-
 }

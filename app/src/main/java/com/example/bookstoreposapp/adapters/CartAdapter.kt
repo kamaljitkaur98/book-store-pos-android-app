@@ -1,5 +1,6 @@
 package com.example.bookstoreposapp.adapters
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -33,12 +34,15 @@ class CartAdapter (private var cartItems: List<CartItem>, private val context: C
     val db = CartDatabase.getDatabase(context)
     val cartDao = db.cartDao()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(event: String, position: Int, newItems: List<CartItem>) {
-        cartItems = newItems
-        calculateTotalAndSeparateItems(cartItems)
-        if(event == "delete"){
+        if (event == "delete" && position >= 0 && position < cartItems.size) {
+            cartItems = cartItems.toMutableList().apply { removeAt(position) }
             notifyItemRemoved(position)
-        }else{
+            calculateTotalAndSeparateItems(cartItems)
+        } else {
+            cartItems = newItems
+            calculateTotalAndSeparateItems(cartItems)
             notifyDataSetChanged()
         }
     }

@@ -101,8 +101,11 @@ class MainActivity : AppCompatActivity() {
                     allBooks.clear()
                         it.forEach { apiBook ->
                         allBooks.add(mapToBookData(apiBook))
-                            }
-                    displayList.addAll(allBooks)
+//                            if(apiBook.availability){
+//                                displayList.add(mapToBookData(apiBook))
+//                            }
+                        }
+                        displayList.addAll(allBooks)
                         bookRVAdapter.notifyDataSetChanged()
 
                     }

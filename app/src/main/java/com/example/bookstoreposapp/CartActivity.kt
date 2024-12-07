@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookstoreposapp.DAO.CartDao
@@ -49,6 +50,10 @@ class CartActivity: AppCompatActivity() {
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.itemAnimator = DefaultItemAnimator().apply {
+            addDuration = 300
+            removeDuration = 300
+        }
         cartAdapter = CartAdapter(emptyList(), this)
         viewModel.allCartItems.observe(this) { cartItems ->
             cartAdapter.updateData("initial", 0, cartItems)
