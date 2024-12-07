@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Welcome ${user?.email}",
                         Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 } else {
                     Toast.makeText(
                         baseContext,
